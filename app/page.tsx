@@ -275,76 +275,83 @@ className={`h-12 rounded-2xl font-bold text-lg transition active:scale-95       
   </div>
 )}
 
-      {showPaywall && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center px-5">
-<div className="bg-zinc-950 border border-zinc-800 rounded-[32px] p-8 max-w-sm w-full text-white animate-[popup_0.25s_ease-out]">
-    <div className="text-center mb-5">
-      <div className="text-5xl mb-3">🎉</div>
+  {showPaywall && (
+  <div className="fixed inset-0 bg-black/80 backdrop-blur-sm overflow-y-auto">
+    <div className="min-h-screen flex items-start justify-center px-4 py-6">
 
-      <h2 className="text-3xl font-black">
-        Hasil Sudah Ketemu
-      </h2>
+      <div className="bg-zinc-950 border border-zinc-800 rounded-[32px] p-6 max-w-sm w-full text-white animate-[popup_0.25s_ease-out]">
+
+        <div className="text-center mb-4">
+          <div className="text-4xl mb-2">🎉</div>
+
+          <h2 className="text-2xl sm:text-3xl font-black">
+            Hasil Sudah Ketemu
+          </h2>
+        </div>
+
+        <div className="bg-black border border-zinc-800 rounded-3xl p-5 text-center mb-4">
+
+          <div className="text-zinc-500 text-xs uppercase tracking-widest mb-2">
+            Hasil
+          </div>
+
+          <div className="text-4xl sm:text-5xl font-black">
+            {fakeResult}
+          </div>
+
+        </div>
+
+        <p className="text-zinc-300 text-center mb-4 leading-relaxed">
+          Kami tahu hasilnya.
+          <br />
+          Kamu belum.
+          <br />
+          Dan itu masalahmu.
+          <br />
+          <br />
+          ⚠️ Hasil akan tetap menjadi misteri jika Anda menutup halaman ini.
+        </p>
+
+        <div className="text-center mb-5">
+          <div className="text-zinc-500 text-sm">
+            Buka rasa penasaran
+          </div>
+
+          <div className="text-4xl sm:text-5xl font-black mt-2">
+            Rp2.000
+          </div>
+        </div>
+
+        <button
+          onClick={handlePayment}
+          className="w-full bg-white text-black py-4 rounded-2xl font-black text-lg"
+        >
+          BUKA HASIL SEKARANG
+        </button>
+
+        <button
+          onClick={() => setShowPaywall(false)}
+          className="w-full mt-3 border border-zinc-800 py-4 rounded-2xl text-zinc-400"
+        >
+          Aku ikhlas bodoh
+        </button>
+
+        <button
+          onClick={shareWebsite}
+          className="w-full mt-3 bg-zinc-800 py-4 rounded-2xl text-white font-bold"
+        >
+          📤 Kirim ke Teman
+        </button>
+
+        <p className="text-center text-zinc-500 text-xs mt-3">
+          Kirim ke teman yang terlalu sering pakai kalkulator.
+        </p>
+
+      </div>
+
     </div>
-
-    <div className="bg-black border border-zinc-800 rounded-3xl p-6 text-center mb-5">
-
-      <div className="text-zinc-500 text-xs uppercase tracking-widest mb-2">
-        Hasil
-      </div>
-
-      <div className="text-5xl font-black">
-        {fakeResult}
-      </div>
-
-    </div>
-
-    <p className="text-zinc-300 text-center mb-4">
-     Kami tahu hasilnya.
-<br />
-Kamu belum.
-<br />
-Dan itu masalahmu.
-<br />
-<br />
-⚠️ Hasil akan tetap menjadi misteri
-jika Anda menutup halaman ini.
-    </p>
-
-    <div className="text-center mb-6">
-      <div className="text-zinc-500 text-sm">
-        Buka rasa penasaran
-      </div>
-
-      <div className="text-5xl font-black mt-2">
-        Rp2.000
-      </div>
-    </div>
-
-   <button
-  onClick={handlePayment}
-  className="w-full bg-white text-black py-4 rounded-2xl font-black text-lg"
->
-  BUKA HASIL SEKARANG
-</button>
-
-    <button
-      onClick={() => setShowPaywall(false)}
-      className="w-full mt-3 border border-zinc-800 py-4 rounded-2xl text-zinc-400"
-    >
-      Aku ikhlas bodoh
-    </button>
-    <button
-  onClick={shareWebsite}
-  className="w-full mt-3 bg-zinc-800 py-4 rounded-2xl text-white font-bold"
->
-  📤 Kirim ke Teman 
-</button>
-    <p className="text-center text-zinc-500 text-xs mb-3">
-  Kirim ke teman yang terlalu sering pakai kalkulator.
-</p>
   </div>
-</div>
-      )}
+)}
     </main>
   );
 }
