@@ -1,12 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+declare global {
+  interface Window {
+    snap: any;
+  }
+}
 
 export default function Home() {
+    const router = useRouter();
   const [display, setDisplay] = useState("0");
   const [loading, setLoading] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
   const [fakeResult, setFakeResult] = useState("****");
+  const [realResult, setRealResult] = useState("");
 
   const shareWebsite = async () => {
   try {
@@ -61,7 +70,10 @@ export default function Home() {
 const result = Function(
   `"use strict"; return (${expression})`
 )();
-    const resultStr = String(result);
+
+
+const resultStr = String(result);
+setRealResult(String(result));
 
     if (resultStr.length <= 2) {
       setFakeResult(resultStr[0] + "*");
@@ -81,6 +93,37 @@ const result = Function(
 
   const [loadingText, setLoadingText] = useState("");
 
+  const handlePayment = async () => {
+  try {
+    const res = await fetch("/api/create-transaction");
+
+    const data = await res.json();
+
+    console.log(data);
+
+  window.snap.pay(data.token, {
+  onSuccess: function () {
+    router.push(
+      `/result?result=${encodeURIComponent(realResult)}`
+    );
+  },
+
+  onPending: function (result: any) {
+    console.log("Pending", result);
+  },
+
+  onError: function (result: any) {
+    console.log("Error", result);
+  },
+
+  onClose: function () {
+    console.log("Popup ditutup");
+  },
+});
+  } catch (err) {
+    console.error(err);
+  }
+  };
   const buttons = [
     "7",
     "8",
@@ -145,17 +188,70 @@ className={`h-12 rounded-2xl font-bold text-lg transition active:scale-95       
               </button>
             ))}
           </div>
-          <div className="text-center text-zinc-500 text-xs mt-5">
-          Dipakai oleh:
-          <br />
-          • 3 anak SD
-          <br />
-          • 1 tukang fotokopi
-          <br />
-          • 17 orang yang salah pencet
-          <br />
-          • 0 matematikawan
-        </div>
+      <div className="mt-5 space-y-3">
+
+  <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-3">
+    <div className="text-yellow-400">
+      ⭐⭐⭐⭐⭐
+    </div>
+
+    <p className="text-zinc-300 text-xs mt-1">
+      "Awalnya iseng. Sekarang saya tau 12×12."
+    </p>
+
+    <p className="text-zinc-500 text-[10px] mt-1">
+      - Budi, pengguna premium
+    </p>
+  </div>
+
+  <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-3">
+    <div className="text-yellow-400">
+      ⭐⭐⭐⭐⭐
+    </div>
+
+    <p className="text-zinc-300 text-xs mt-1">
+      "Saya menyesal penasaran."
+    </p>
+
+    <p className="text-zinc-500 text-[10px] mt-1">
+      - Anton, korban kalkulator
+    </p>
+  </div>
+  <div className="grid grid-cols-3 gap-2 mt-4">
+
+  <div className="bg-zinc-900 rounded-xl p-3 text-center">
+    <div className="text-white font-black">
+      1.284
+    </div>
+
+    <div className="text-zinc-500 text-[10px]">
+      Perhitungan
+    </div>
+  </div>
+
+  <div className="bg-zinc-900 rounded-xl p-3 text-center">
+    <div className="text-white font-black">
+      97%
+    </div>
+
+    <div className="text-zinc-500 text-[10px]">
+      Penasaran
+    </div>
+  </div>
+
+  <div className="bg-zinc-900 rounded-xl p-3 text-center">
+    <div className="text-white font-black">
+      Rp14K
+    </div>
+
+    <div className="text-zinc-500 text-[10px]">
+      Diselamatkan
+    </div>
+  </div>
+
+</div>
+
+</div>
 
         
         </div>
@@ -203,9 +299,15 @@ className={`h-12 rounded-2xl font-bold text-lg transition active:scale-95       
     </div>
 
     <p className="text-zinc-300 text-center mb-4">
-      Kami tahu hasilnya.
-      <br />
-      Kamu belum.
+     Kami tahu hasilnya.
+<br />
+Kamu belum.
+<br />
+Dan itu masalahmu.
+<br />
+<br />
+⚠️ Hasil akan tetap menjadi misteri
+jika Anda menutup halaman ini.
     </p>
 
     <div className="text-center mb-6">
@@ -218,9 +320,12 @@ className={`h-12 rounded-2xl font-bold text-lg transition active:scale-95       
       </div>
     </div>
 
-    <button className="w-full bg-white text-black py-4 rounded-2xl font-black text-lg">
-      YAUDAH KASIH TAU
-    </button>
+   <button
+  onClick={handlePayment}
+  className="w-full bg-white text-black py-4 rounded-2xl font-black text-lg"
+>
+  BUKA HASIL SEKARANG
+</button>
 
     <button
       onClick={() => setShowPaywall(false)}
